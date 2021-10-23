@@ -1,0 +1,14 @@
+.contant {
+  display: grid;
+  grid-template-columns: 1fr minmax(auto,1200px) 1fr;
+  padding-top: 20px;
+  padding-bottom: 40px;
+}
+.card__wrapper {
+  display: grid;
+  grid-column: 2/ 3;
+  grid-template-columns: repeat(auto-fit, minmax(auto, 200px));
+  column-gap: 20px;
+  row-gap: 20px;
+  justify-content: space-between;
+}

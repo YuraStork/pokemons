@@ -1,0 +1,17 @@
+.header {
+  background-color: coral;
+  display: grid;
+  grid-template-columns: 1fr minmax(auto,1200px) 1fr;
+}
+.container {
+  grid-column: 2/3;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.logo__block{
+  width: 150px;
+}
+.logo__img{
+  width: 100%;
+  object-fit: cover;
+}
