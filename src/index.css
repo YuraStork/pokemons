@@ -6,8 +6,15 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
+  min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: rgb(154, 31, 143);
+  background: linear-gradient(
+    308deg,
+    rgba(154, 31, 143, 1) 36%,
+    rgba(23, 131, 235, 1) 100%
+  );
 }
 .App_section {
   display: grid;
