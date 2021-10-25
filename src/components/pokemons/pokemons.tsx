@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React from 'react';
+import Preloader from '../preloader/preloader';
 import Pokemon from './pokemon/pokemon';
 import style from './pokemons.module.css';
 
@@ -26,7 +27,7 @@ const Pokemons: React.FC<any> = React.memo((props) => {
     Fetch();
   }, [props])
 
-  if (!pokemonsArray) return <div>loading...</div>
+  if (!pokemonsArray) return <div><Preloader /></div>
   const numberOfPages = Math.ceil(props.count / props.maxCards);
   const arrPages = [];
   for (let i = 1; i <= numberOfPages; i++) arrPages.push(i);

@@ -6,8 +6,7 @@ const Pokemon: React.FC<any> = (props) => {
   React.useEffect(() => {
     setPokemon(props.data);
   }, [props])
-  if (!pokemon) return <div>loading...</div>
-  console.log("p", props)
+  if (!pokemon) return <div></div>
   return <div className={style.card}>
     <div className={style.name__block}>
       <div>{pokemon.name.toUpperCase()}</div>
