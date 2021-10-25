@@ -1,9 +1,15 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: 1fr minmax(auto, 1220px) 1fr;
+  margin: 0 10px;
+}
+.container {
+  grid-column: 2/3;
+}
 .navlink {
   text-decoration: none;
   display: block;
-  background-color: rgb(37, 110, 236);
-  border: 1px solid white;
-  color: white;
+  color: rgb(255, 255, 255);
   margin: 5px;
   padding: 5px 10px;
 }
@@ -22,6 +28,28 @@
   justify-content: space-between;
 }
 .active__navlink {
-  background-color: rgb(255, 255, 255);
-  color: black;
+  background-color: rgb(12, 89, 223);
+  color: white;
+  border: 1px solid white;
+}
+.burger__menu {
+  display: none;
+}
+.navlink__mob{
+  text-decoration: none;
+  display: block;
+  color: rgb(0, 0, 0);
+  margin: 5px;
+  padding: 5px 10px;
+}
+@media screen and (max-width: 500px) {
+  .burger__menu {
+    display: block;
+  }
+  .logo__block {
+    display: none;
+  }
+  .navlinks__block {
+    display: none;
+  }
 }

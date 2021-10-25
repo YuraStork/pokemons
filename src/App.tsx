@@ -5,9 +5,9 @@ import Routers from "./routers";
 function App() {
   return (
     <div className="App_section">
-      <Header />
-      <Routers />
-      <Footer />
+      <div><Header /></div>
+      <div><Routers /></div>
+      <div className='footer'><Footer /></div>
     </div>
   );
 }
