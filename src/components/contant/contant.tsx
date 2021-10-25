@@ -1,5 +1,7 @@
+import { Button } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 import Pokemon from "../pokemons/pokemon/pokemon";
 import Preloader from "../preloader/preloader";
 import style from './contant.module.css'
@@ -7,7 +9,7 @@ import style from './contant.module.css'
 const Content: React.FC = (props: any) => {
   const [pokemons, setPokemons] = useState<any>(null);
   useEffect(() => {
-     const Fetch = async () => {
+    const Fetch = async () => {
       const arrPagesL: any = [];
       if (props.pokemons) {
         props.pokemons.map((pok: any) => {
@@ -32,7 +34,11 @@ const Content: React.FC = (props: any) => {
             <Pokemon key={i.name} data={i} />
           )
         })}
+
     </div>
-  </div>
+    <div className={style.btn__block}>
+     <NavLink to='/pokemons' className='navlink'> <Button variant='contained' color='secondary'>Дивитися всіх</Button></NavLink>
+    </div>
+  </div >
 }
 export default Content;
