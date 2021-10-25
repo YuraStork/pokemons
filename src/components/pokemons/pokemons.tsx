@@ -78,7 +78,6 @@ const Pokemons: React.FC<any> = React.memo((props) => {
                 <span key={p}><span>...</span><span className={props.currentPage == p ? style.nav_activ_span : style.nav__span} onClick={() => { props.withGetPokemonsNavigation(props.maxCards, index, p, props.maxCards); setPage(arrPages.length - 6) }}>{p}</span></span>)
           }
         })}
-
         <button className={style.next_btn} disabled={page > arrPages.length - 7} onClick={() => { props.withNext(); setPage(page + 5) }}>&#62;</button>
         <select className={style.select__btn} defaultValue='10' onChange={(event) => { props.withSetMaxCards(+event.target.value); setPage(1) }}>
           <option value='10'>10</option>
@@ -87,11 +86,10 @@ const Pokemons: React.FC<any> = React.memo((props) => {
         </select>
       </div>
 
-
       <div className={style.filter__block}>
-        <input type="text" onChange={(event) => setValue(event.target.value)} />
-        <button onClick={() => sortedBy('weight', 'dec')}>weigth</button>
-        <button onClick={() => sortedBy('height', 'inc')}>height</button>
+        <input type="text" className={style.search__input} onChange={(event) => setValue(event.target.value)} />
+        <button className={style.sorted__btn} onClick={() => sortedBy('weight', 'dec')}>weigth</button>
+        <button className={style.sorted__btn} onClick={() => sortedBy('height', 'inc')}>height</button>
       </div>
     </div>
 

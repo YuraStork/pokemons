@@ -17,6 +17,9 @@
 .navigation {
   grid-column: 2/3;
   padding: 5px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }
 .nav__span {
   display: inline-block;
@@ -46,7 +49,7 @@
   width: 50px;
   cursor: pointer;
 }
-.next_btn{
+.next_btn {
   background-color: white;
   border: none;
   text-align: center;
@@ -55,11 +58,11 @@
   width: 50px;
   cursor: pointer;
 }
-.paginator{
+.paginator {
   display: flex;
   align-items: center;
 }
-.select__btn{
+.select__btn {
   margin-left: 10px;
   background-color: white;
   border: none;
@@ -69,4 +72,18 @@
   padding-bottom: 4px;
   width: 60px;
   cursor: pointer;
+}
+.search__input {
+  padding: 5px;
+}
+.sorted__btn {
+  padding: 6px;
+  cursor: pointer;
+  background-color: white;
+  border: 1px solid black;
+  transition: .2s;
+}
+.sorted__btn:focus {
+  background-color: rgb(37, 110, 236);
+  color: white;
 }
