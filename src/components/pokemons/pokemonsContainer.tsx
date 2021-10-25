@@ -4,21 +4,15 @@ import { withGetPokemons, withNext, withPrev, withGetPokemonsNavigation, withSet
 import Pokemons from "./pokemons";
 
 const PokemonsContainer = (props: any) => {
+  console.log('POKEMONS__CONTAINER', props);
   React.useEffect(() => {
-    const Fetch = async() => {
-     await props.withGetPokemons(props.maxCards, props.offset);
-    }
-    Fetch();
-  }, [props.currentPage]);
-
-  React.useEffect(() => {
-    const Fetch = async() => {
-     await props.withGetPokemons(props.maxCards, props.offset);
+    const Fetch = async () => {
+      await props.withGetPokemons(props.maxCards, props.offset);
     }
     Fetch();
   }, [props.maxCards]);
 
-  if (!props.pokemons) return <div>loading...</div>
+  if (!props) return <div>loading...</div>
   return <Pokemons {...props} />
 }
 

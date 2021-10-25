@@ -44,7 +44,6 @@ const pokemonsReducer = (state: any = initialState, action: any) => {
       if (state.offset <= state.count - state.maxCards) {
         return {
           ...state,
-          currentPage: ++state.currentPage,
           offset: state.offset + state.maxCards
         }
       }
@@ -54,8 +53,7 @@ const pokemonsReducer = (state: any = initialState, action: any) => {
       if (state.offset >= state.maxCards) {
         return {
           ...state,
-          currentPage: --state.currentPage,
-          offset: Number(state.offset -= state.maxCards)
+          offset: state.offset -= state.maxCards
         }
       }
       else return state
@@ -72,7 +70,6 @@ const pokemonsReducer = (state: any = initialState, action: any) => {
     }
   }
 }
-
 export const withGetPokemons = (limit: number, offset: number) => async (dispatch: any) => {
   const response = await pokemonsPageAPI.getPokemons(limit, offset);
   dispatch(setPokemons(response.data.results));

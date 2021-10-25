@@ -3,10 +3,12 @@ import React from 'react';
 import Pokemon from './pokemon/pokemon';
 import style from './pokemons.module.css';
 
-const Pokemons: React.FC<any> = (props) => {
+const Pokemons: React.FC<any> = React.memo((props) => {
+  console.log('POKEMONS', props)
   const [pokemonsArray, setPokemons] = React.useState<any>(null);
+  const [page, setPage] = React.useState(props.currentPage > 5 ? props.currentPage - 4 : props.currentPage);
   const [value, setValue] = React.useState('');
-  const [page, setPage] = React.useState(props.currentPage);
+
   React.useEffect(() => {
     const Fetch = async () => {
       const arrPagesL: any = [];
@@ -23,19 +25,16 @@ const Pokemons: React.FC<any> = (props) => {
     }
     Fetch();
   }, [props])
-
+  console.log('Page', page)
   if (!pokemonsArray) return <div>loading...</div>
   const numberOfPages = Math.ceil(props.count / props.maxCards);
   const arrPages = [];
-  console.log('Page',page)
   for (let i = 1; i <= numberOfPages; i++) arrPages.push(i);
-  console.log('pokemonsArray', pokemonsArray);
-
   const sortedBy = (attr: 'weight' | 'height', at: 'dec' | 'inc') => {
     const arr: any = [...pokemonsArray];
     for (let i = 0; i < arr.length; i++) {
       for (let j = 0; j < arr.length; j++) {
-        if (at == 'inc') {
+        if (at === 'inc') {
           if (arr[i][attr] < arr[j][attr]) {
             let temp = arr[i];
             arr[i] = arr[j];
@@ -63,22 +62,21 @@ const Pokemons: React.FC<any> = (props) => {
         {arrPages.map((p: number, index) => {
           if (p == 1) {
             return (
-              <span key={p} className={props.currentPage == p ? style.nav_activ_span : style.nav__span} onClick={() => props.withGetPokemonsNavigation(props.maxCards, index, p, props.maxCards)}>{p}</span>)
+              <span key={p} className={props.currentPage == p ? style.nav_activ_span : style.nav__span} onClick={() => { props.withGetPokemonsNavigation(props.maxCards, index, p, props.maxCards); setPage(1) }}>{p}</span>)
           }
           else if (p >= page && p < page + 5) {
             return (
               <span key={p} className={props.currentPage == p ? style.nav_activ_span : style.nav__span} onClick={() => props.withGetPokemonsNavigation(props.maxCards, index, p, props.maxCards)}>{p}</span>)
           }
-
           else if (p == arrPages.length) {
             return (
-              <span><span>...</span><span key={p} className={props.currentPage == p ? style.nav_activ_span : style.nav__span} onClick={() => {props.withGetPokemonsNavigation(props.maxCards, index, p, props.maxCards); setPage(arrPages.length-5)}}>{p}</span></span>)
+              <span key={p}><span>...</span><span className={props.currentPage == p ? style.nav_activ_span : style.nav__span} onClick={() => { props.withGetPokemonsNavigation(props.maxCards, index, p, props.maxCards); setPage(arrPages.length - 5) }}>{p}</span></span>)
           }
         })}
 
         <button disabled={page > arrPages.length - 6} onClick={() => { props.withNext(); setPage(page + 5) }}>next</button>
       </div>
-      <select defaultValue='10' onChange={(event) => { props.withSetMaxCards(+event.target.value);setPage(1) }}>
+      <select defaultValue='10' onChange={(event) => { props.withSetMaxCards(+event.target.value); setPage(1) }}>
         <option value='10'>10</option>
         <option value='20'>20</option>
         <option value='50'>50</option>
@@ -93,5 +91,5 @@ const Pokemons: React.FC<any> = (props) => {
       {filterPokemons.map((pok: any) => { return <Pokemon key={pok.id} data={pok} /> })}
     </div>
   </div>
-}
+})
 export default Pokemons;
