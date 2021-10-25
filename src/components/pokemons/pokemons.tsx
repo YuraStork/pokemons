@@ -26,7 +26,8 @@ const Pokemons: React.FC<any> = React.memo((props) => {
     }
     Fetch();
   }, [props])
-
+  console.log('PAGE',page);
+  console.log('PROPS',props);
   if (!pokemonsArray) return <div><Preloader /></div>
   const numberOfPages = Math.ceil(props.count / props.maxCards);
   const arrPages = [];
@@ -80,6 +81,35 @@ const Pokemons: React.FC<any> = React.memo((props) => {
           }
         })}
         <button className={style.next_btn} disabled={page > arrPages.length - 7} onClick={() => { props.withNext(); setPage(page + 5) }}>&#62;</button>
+        <select className={style.select__btn} defaultValue={props.maxCards} onChange={(event) => { props.withSetMaxCards(+event.target.value); setPage(1) }}>
+          <option value='10'>10</option>
+          <option value='20'>20</option>
+          <option value='50'>50</option>
+        </select>
+      </div>
+
+      <div className={style.paginator__adaptive}>
+        <button className={style.btn_prev} disabled={page <= 2} onClick={() => { props.withPrev(); setPage(page - 2) }}>&#60;</button>
+        {arrPages.map((p: number, index) => {
+          if (p == 1) {
+            return (
+              <span key={p} className={props.currentPage == p ? style.nav_activ_span : style.nav__span} onClick={() => { props.withGetPokemonsNavigation(props.maxCards, index, p, props.maxCards); setPage(1) }}>{p}</span>)
+          }
+          else if (p > page && p <= page + 2) {
+            return (
+              <span key={p} className={props.currentPage == p ? style.nav_activ_span : style.nav__span} onClick={() => props.withGetPokemonsNavigation(props.maxCards, index, p, props.maxCards)}>{p}</span>)
+          }
+          else if (p == arrPages.length) {
+            if (page == arrPages.length - 3) {
+              return (
+                <span key={p}><span className={props.currentPage == p ? style.nav_activ_span : style.nav__span} onClick={() => { props.withGetPokemonsNavigation(props.maxCards, index, p, props.maxCards); setPage(arrPages.length - 3) }}>{p}</span></span>)
+            }
+            else
+              return (
+                <span key={p}><span>...</span><span className={props.currentPage == p ? style.nav_activ_span : style.nav__span} onClick={() => { props.withGetPokemonsNavigation(props.maxCards, index, p, props.maxCards); setPage(arrPages.length - 3) }}>{p}</span></span>)
+          }
+        })}
+        <button className={style.next_btn} disabled={page > arrPages.length - 4} onClick={() => { props.withNext(); setPage(page + 2) }}>&#62;</button>
         <select className={style.select__btn} defaultValue={props.maxCards} onChange={(event) => { props.withSetMaxCards(+event.target.value); setPage(1) }}>
           <option value='10'>10</option>
           <option value='20'>20</option>

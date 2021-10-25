@@ -9,10 +9,11 @@
   display: grid;
   grid-column: 2/ 3;
   grid-template-columns: repeat(auto-fit, minmax(auto, 250px));
-  column-gap: 10px;
+  column-gap: 20px;
   align-items: stretch;
   row-gap: 20px;
   justify-content: space-between;
+  margin: 0 10px;
 }
 .navigation {
   grid-column: 2/3;
@@ -29,7 +30,7 @@
   cursor: pointer;
   margin: 3px;
   border: 2px solid white;
-  color:white
+  color: white;
 }
 .nav_activ_span {
   display: inline-block;
@@ -37,7 +38,7 @@
   text-align: center;
   padding: 3px 10px;
   border: 2px solid white;
-  color:white;
+  color: white;
   background-color: rgb(255, 0, 179);
   cursor: pointer;
   margin: 3px;
@@ -49,7 +50,7 @@
   padding: 5px 10px;
   width: 50px;
   border: 2px solid white;
-  color:white;
+  color: white;
   cursor: pointer;
   line-height: 19px;
 }
@@ -59,7 +60,7 @@
   line-height: 19px;
   text-align: center;
   border: 2px solid white;
-  color:white;
+  color: white;
   padding: 5px 10px;
   width: 50px;
   cursor: pointer;
@@ -93,4 +94,45 @@
 .sorted__btn:focus {
   background-color: rgb(37, 110, 236);
   color: white;
+}
+.paginator__adaptive {
+  display: none;
+}
+@media screen and (max-width: 900px) {
+  .navigation {
+    flex-direction: column;
+  }
+  .paginator {
+    margin-bottom: 20px;
+  }
+  .filter__block {
+    margin-bottom: 10px;
+  }
+  .card__wrapper{
+    justify-content: space-evenly;
+  }
+}
+@media screen and (max-width: 600px) {
+  .paginator__adaptive {
+    margin: 0 auto;
+    margin-bottom: 20px;
+    display: block;
+    color: white;
+  }
+  .filter__block {
+    margin: 0 auto;
+  }
+  .paginator {
+    display: none;
+  }
+  .card__wrapper{
+    margin: 0 10px;
+  }
+}
+@media screen and (max-width: 440px) {
+  .select__btn{
+    display: block;
+    margin: 0 auto;
+    margin-top: 10px;
+  }
 }
