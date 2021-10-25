@@ -5,7 +5,7 @@ const main = axios.create({
 })
 
 export const pokemonsPageAPI = {
-  getPokemons: async (limit,offset) => {
+  getPokemons: async (limit, offset) => {
     return await main.get(`pokemon?limit=${limit}&offset=${offset}`);
   }
 }
