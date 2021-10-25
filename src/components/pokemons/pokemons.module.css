@@ -8,8 +8,9 @@
 .card__wrapper {
   display: grid;
   grid-column: 2/ 3;
-  grid-template-columns: repeat(auto-fit, minmax(auto, 200px));
-  column-gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(auto, 250px));
+  column-gap: 10px;
+  align-items: stretch;
   row-gap: 20px;
   justify-content: space-between;
 }

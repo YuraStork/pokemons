@@ -7,20 +7,22 @@ const Pokemon: React.FC<any> = (props) => {
     setPokemon(props.data);
   }, [props])
   if (!pokemon) return <div>loading...</div>
-
+  console.log("p", props)
   return <div className={style.card}>
-    <div>id: #{pokemon.id}</div>
-    <div><img src={pokemon.sprites.other.dream_world.front_default} className={style.pok_image} alt="" /></div>
-    
-    <div>Abilities
+    <div className={style.name__block}>
+      <div>{pokemon.name.toUpperCase()}</div>
+      <div className={style.id__block}>id: #{pokemon.id < 10 ? '00' : null}{pokemon.id > 9 && pokemon.id < 100 ? '0' : null}{pokemon.id}</div>
+    </div>
+    <div className={style.image__block}><img src={pokemon.sprites.other.dream_world.front_default} className={style.pok_image} alt="" /></div>
+    <div className={style.defines__block}>
+      <div>Weight: {pokemon.weight}</div>
+      <div>Height: {pokemon.height}</div>
+    </div>
+    <div className={style.abbilities__block}>Abilities
       {pokemon.abilities.map((ab: any, index: any) => {
-        return <div key={index}>{++index}{ab.ability.name}</div>
+        return <div key={index}>{++index}.{ab.ability.name}</div>
       })}
     </div>
-    <div>{pokemon.name}</div>
-    <div>weight:{pokemon.weight}</div>
-    <div>height:{pokemon.height}</div>
-
   </div>
 }
 export default Pokemon;

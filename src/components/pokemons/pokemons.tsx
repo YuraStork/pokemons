@@ -25,7 +25,7 @@ const Pokemons: React.FC<any> = React.memo((props) => {
     }
     Fetch();
   }, [props])
-  console.log('Page', page)
+
   if (!pokemonsArray) return <div>loading...</div>
   const numberOfPages = Math.ceil(props.count / props.maxCards);
   const arrPages = [];
