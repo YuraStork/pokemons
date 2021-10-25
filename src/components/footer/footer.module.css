@@ -1,0 +1,14 @@
+.footer {
+  display: grid;
+  grid-row: 3/ 4;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  grid-template-columns: 1fr minmax(auto, 1200px) 1fr;
+  background-color: rgb(0, 0, 0);
+  color: white;
+}
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  grid-column: 2/3;
+}

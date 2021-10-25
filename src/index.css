@@ -11,7 +11,7 @@ body {
 }
 .App_section {
   display: grid;
-  grid-template: auto 1fr auto;
+  grid-template: auto 1fr auto / 1fr;
 }
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
