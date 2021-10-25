@@ -1,17 +1,32 @@
+import * as React from 'react';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
 import { NavLink } from 'react-router-dom';
-import logo from '../../images/logo.png';
-import style from './header.module.css';
-
+import style from './header.module.css'
 const Header: React.FC = () => {
-  return <header className={style.header}>
-    <div className={style.container}>
-      <div className={style.logo__block}><img src={logo} alt='pokemon logo' title='our logo' className={style.logo__img} /></div>
-      <div>
-        <NavLink to='/home'>home</NavLink>
-        <NavLink to='/pokemons'>   all pokemons</NavLink>
-        <span> contacts</span>
-      </div>
-    </div>
-  </header>
+  return (
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static" >
+        <Toolbar variant="dense" className={style.header}>
+          <div className={style.logo__block}>
+            <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" color="inherit" component="div">
+              Pokemons
+            </Typography>
+          </div>
+          <div className={style.navlinks__block}>
+            <NavLink className={style.navlink} activeClassName={style.active__navlink} to='/main'>Home</NavLink>
+            <NavLink className={style.navlink} activeClassName={style.active__navlink} to='/pokemons'>Pokemons</NavLink>
+          </div>
+        </Toolbar>
+      </AppBar>
+    </Box>
+  )
 }
 export default Header;

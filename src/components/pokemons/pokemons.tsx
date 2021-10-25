@@ -79,7 +79,7 @@ const Pokemons: React.FC<any> = React.memo((props) => {
           }
         })}
         <button className={style.next_btn} disabled={page > arrPages.length - 7} onClick={() => { props.withNext(); setPage(page + 5) }}>&#62;</button>
-        <select className={style.select__btn} defaultValue='10' onChange={(event) => { props.withSetMaxCards(+event.target.value); setPage(1) }}>
+        <select className={style.select__btn} defaultValue={props.maxCards} onChange={(event) => { props.withSetMaxCards(+event.target.value); setPage(1) }}>
           <option value='10'>10</option>
           <option value='20'>20</option>
           <option value='50'>50</option>

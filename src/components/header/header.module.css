@@ -1,17 +1,27 @@
+.navlink {
+  text-decoration: none;
+  display: block;
+  background-color: rgb(37, 110, 236);
+  border: 1px solid white;
+  color: white;
+  margin: 5px;
+  padding: 5px 10px;
+}
+.navlinks__block {
+  display: flex;
+  justify-content: space-between;
+}
+.logo__block {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 .header {
-  background-color: coral;
-  display: grid;
-  grid-template-columns: 1fr minmax(auto,1200px) 1fr;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
-.container {
-  grid-column: 2/3;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-.logo__block{
-  width: 150px;
-}
-.logo__img{
-  width: 100%;
-  object-fit: cover;
+.active__navlink {
+  background-color: rgb(255, 255, 255);
+  color: black;
 }
