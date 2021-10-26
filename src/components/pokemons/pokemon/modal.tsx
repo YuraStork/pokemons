@@ -9,7 +9,6 @@ import styles from './modal.module.css';
 import pokemonsContainer from '../pokemonsContainer';
 
 const TransitionsModal: React.FC<any> = (pokemon) => {
-  console.log('This props', pokemon)
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);

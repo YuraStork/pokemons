@@ -6,7 +6,7 @@ import style from './pokemons.module.css';
 
 const Pokemons: React.FC<any> = React.memo((props) => {
   const [pokemonsArray, setPokemons] = React.useState<any>(null);
-  const [page, setPage] = React.useState(props.currentPage > 5 ? props.currentPage - 6 : props.currentPage);
+  const [page, setPage] = React.useState(props.currentPage > 2 ? props.currentPage - 2 : props.currentPage);
   const [value, setValue] = React.useState('');
 
   React.useEffect(() => {
@@ -64,7 +64,7 @@ const Pokemons: React.FC<any> = React.memo((props) => {
             return (
               <span key={p} className={props.currentPage == p ? style.nav_activ_span : style.nav__span} onClick={() => { props.withGetPokemonsNavigation(props.maxCards, index, p, props.maxCards); setPage(1) }}>{p}</span>)
           }
-          else if (p > page && p <= page + 5) {
+          else if (p > page && p <= page + 6) {
             return (
               <span key={p} className={props.currentPage == p ? style.nav_activ_span : style.nav__span} onClick={() => props.withGetPokemonsNavigation(props.maxCards, index, p, props.maxCards)}>{p}</span>)
           }
@@ -98,7 +98,7 @@ const Pokemons: React.FC<any> = React.memo((props) => {
               <span key={p} className={props.currentPage == p ? style.nav_activ_span : style.nav__span} onClick={() => props.withGetPokemonsNavigation(props.maxCards, index, p, props.maxCards)}>{p}</span>)
           }
           else if (p == arrPages.length) {
-            if (page == arrPages.length - 3) {
+            if (page == arrPages.length - 2) {
               return (
                 <span key={p}><span className={props.currentPage == p ? style.nav_activ_span : style.nav__span} onClick={() => { props.withGetPokemonsNavigation(props.maxCards, index, p, props.maxCards); setPage(arrPages.length - 3) }}>{p}</span></span>)
             }
