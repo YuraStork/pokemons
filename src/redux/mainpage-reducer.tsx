@@ -1,18 +1,28 @@
 import { mainPageAPI } from "../api";
 
-const SET_POKEMONS = 'SET_POKEMONS';
-export const setPokemons = (results: any) => ({ type: SET_POKEMONS, 'pokemons': results });
+enum CONST {
+  SET_POKEMONS = 'SET_POKEMONS',
+}
+interface setPokemonsINT {
+  type: typeof CONST.SET_POKEMONS,
+  pokemons: [] | null
+}
+interface initialStateINT {
+  maxCards: number,
+  pokemons: null | []
+}
+export const setPokemons = (pokemons: any): setPokemonsINT => ({ type: CONST.SET_POKEMONS, pokemons });
 
-const initialState = {
+const initialState: initialStateINT = {
   maxCards: 10,
-  pokemons:null
+  pokemons: null
 }
 
-const mainpage_reducer = (state: any = initialState, action: any) => {
+const mainpage_reducer = (state: initialStateINT = initialState, action: any) => {
   switch (action.type) {
-    case SET_POKEMONS:
+    case CONST.SET_POKEMONS:
       return {
-        ...state, 
+        ...state,
         pokemons: [...action.pokemons]
       }
     default:
