@@ -1,46 +1,61 @@
 import { pokemonsPageAPI } from "../api";
+import { ActionINT, StateINT } from "../types";
 
-interface INITSTATE {
-  pokemons: null | [],
-  count: number,
+export enum CONST {
+  SET_POKEMONS = 'SET_POKEMONS',
+  SET_NAVIGATION = 'SET_NAVIGATION',
+  SET_NEXT = 'SET_NEXT',
+  SET_PREV = 'SET_PREV',
+  SET_MAX_CARDS = 'SET_MAX_CARDS'
+}
+interface SetPokemonstINT {
+  type: typeof CONST.SET_POKEMONS,
+  pokemons: [] | null
+}
+interface SetNavigationtINT {
+  type: typeof CONST.SET_NAVIGATION,
+  pokemons: [] | null,
   offset: number,
-  maxCards: number,
   currentPage: number
 }
+interface SetNextINT {
+  type: typeof CONST.SET_NEXT
+}
+interface SetPrevINT {
+  type: typeof CONST.SET_PREV
+}
+interface SetMaxCardsINT {
+  type: typeof CONST.SET_MAX_CARDS,
+  maxCards: number
+}
 
-const SET_POKEMONS = 'SET_POKEMONS';
-const SET_NAVIGATION = 'SET_NAVIGATION';
-const SET_NEXT = 'SET_NEXT';
-const SET_PREV = 'SET_PREV';
-const SET_MAX_CARDS = 'SET_MAX_CARDS';
+export const setPokemons = (pokemons: any): SetPokemonstINT => ({ type: CONST.SET_POKEMONS, pokemons });
+export const setNavigation = (offset: number, currentPage: number, pokemons: any): SetNavigationtINT => ({ type: CONST.SET_NAVIGATION, offset, currentPage, pokemons })
+export const setNext = (): SetNextINT => ({ type: CONST.SET_NEXT });
+export const setPrev = (): SetPrevINT => ({ type: CONST.SET_PREV });
+export const setMaxCards = (maxCards: number): SetMaxCardsINT => ({ type: CONST.SET_MAX_CARDS, maxCards })
 
-export const setPokemons = (pokemons: any) => ({ type: SET_POKEMONS, pokemons });
-export const setNavigation = (offset: number, currentPage: number, pokemons: any) => ({ type: SET_NAVIGATION, offset, currentPage, pokemons })
-export const setNext = () => ({ type: SET_NEXT });
-export const setPrev = () => ({ type: SET_PREV });
-export const setMaxCards = (maxCards: number) => ({ type: SET_MAX_CARDS, maxCards })
-
-const initialState: INITSTATE = {
+const initialState: StateINT = {
   pokemons: null,
   count: 1118,
   offset: 0,
   maxCards: 10,
   currentPage: 1
 }
-const pokemonsReducer = (state: any = initialState, action: any) => {
+const pokemonsReducer = (state: StateINT = initialState, action: ActionINT) => {
   switch (action.type) {
-    case SET_POKEMONS:
+    case CONST.SET_POKEMONS:
       return {
         ...state, pokemons: [...action.pokemons]
       }
-    case SET_MAX_CARDS:
+    case CONST.SET_MAX_CARDS:
       return {
-        ...state, 
+        ...state,
         maxCards: action.maxCards,
         offset: 0,
         currentPage: 1
       }
-    case SET_NEXT: {
+    case CONST.SET_NEXT: {
       if (state.offset <= state.count - state.maxCards) {
         return {
           ...state,
@@ -49,7 +64,7 @@ const pokemonsReducer = (state: any = initialState, action: any) => {
       }
       else return state
     }
-    case SET_PREV: {
+    case CONST.SET_PREV: {
       if (state.offset >= state.maxCards) {
         return {
           ...state,
@@ -58,7 +73,7 @@ const pokemonsReducer = (state: any = initialState, action: any) => {
       }
       else return state
     }
-    case SET_NAVIGATION: {
+    case CONST.SET_NAVIGATION: {
       return {
         ...state, offset: action.offset,
         currentPage: action.currentPage,
