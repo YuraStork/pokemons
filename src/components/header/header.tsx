@@ -29,10 +29,11 @@ const Header: React.FC = () => {
                 </Typography>
               </div>
               <div className={style.navlinks__block}>
-                <NavLink className={style.navlink} activeClassName={style.active__navlink} to='/main'>Home</NavLink>
+                <NavLink className={style.navlink} activeClassName={style.active__navlink} to='/home'>Home</NavLink>
                 <NavLink className={style.navlink} activeClassName={style.active__navlink} to='/pokemons'>Pokemons</NavLink>
               </div>
             </Toolbar>
+
             <Drawer open={open} className={style.drawer}>
               <IconButton onClick={() => setOpen(false)}>
                 <CloseIcon />
@@ -40,6 +41,7 @@ const Header: React.FC = () => {
               <NavLink className={style.navlink__mob} activeClassName={style.active__navlink} to='/main'>Home</NavLink>
               <NavLink className={style.navlink__mob} activeClassName={style.active__navlink} to='/pokemons'>Pokemons</NavLink>
             </Drawer>
+
           </div>
         </div>
       </AppBar>

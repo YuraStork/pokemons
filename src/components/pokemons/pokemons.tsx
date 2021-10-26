@@ -5,7 +5,6 @@ import Pokemon from './pokemon/pokemon';
 import style from './pokemons.module.css';
 
 const Pokemons: React.FC<any> = React.memo((props) => {
-  console.log('POKEMONS', props)
   const [pokemonsArray, setPokemons] = React.useState<any>(null);
   const [page, setPage] = React.useState(props.currentPage > 5 ? props.currentPage - 6 : props.currentPage);
   const [value, setValue] = React.useState('');
@@ -26,8 +25,7 @@ const Pokemons: React.FC<any> = React.memo((props) => {
     }
     Fetch();
   }, [props])
-  console.log('PAGE',page);
-  console.log('PROPS',props);
+
   if (!pokemonsArray) return <div><Preloader /></div>
   const numberOfPages = Math.ceil(props.count / props.maxCards);
   const arrPages = [];

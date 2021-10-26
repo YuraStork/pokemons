@@ -11,13 +11,12 @@ interface initialStateINT {
   maxCards: number,
   pokemons: null | []
 }
-export const setPokemons = (pokemons: any): setPokemonsINT => ({ type: CONST.SET_POKEMONS, pokemons });
 
+export const setPokemons = (pokemons: any): setPokemonsINT => ({ type: CONST.SET_POKEMONS, pokemons });
 const initialState: initialStateINT = {
   maxCards: 10,
   pokemons: null
 }
-
 const mainpage_reducer = (state: initialStateINT = initialState, action: any) => {
   switch (action.type) {
     case CONST.SET_POKEMONS:
