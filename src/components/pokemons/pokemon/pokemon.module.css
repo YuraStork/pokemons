@@ -12,6 +12,7 @@
   text-shadow: black 1px 1px 5px;
   box-shadow: 0px 1px 1px 5px rgb(0, 0, 0);
   transition: .3s;
+  cursor: pointer;
 }
 .card:hover{
   cursor: pointer;

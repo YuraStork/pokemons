@@ -123,7 +123,7 @@ const Pokemons: React.FC<any> = React.memo((props) => {
     </div>
 
     <div className={style.card__wrapper}>
-      {filterPokemons.map((pok: any) => { return <Pokemon key={pok.id} data={pok} /> })}
+      {filterPokemons.map((pok: any) => { return <Pokemon key={pok.name} data={pok} /> })}
     </div>
   </div>
 })
