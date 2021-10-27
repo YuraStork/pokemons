@@ -9,6 +9,7 @@ const Pokemons: React.FC<any> = React.memo((props) => {
   const [page, setPage] = React.useState(props.currentPage > 2 ? props.currentPage - 2 : props.currentPage);
   const [value, setValue] = React.useState('');
 
+  console.log('Props:',props,'page:',page);
   React.useEffect(() => {
     const Fetch = async () => {
       const arrPagesL: any = [];
@@ -58,7 +59,7 @@ const Pokemons: React.FC<any> = React.memo((props) => {
   return <div className={style.pokemons}>
     <div className={style.navigation}>
       <div className={style.paginator}>
-        <button className={style.btn_prev} disabled={page <= 5} onClick={() => { props.withPrev(); setPage(page - 5) }}>&#60;</button>
+        <button className={style.btn_prev} disabled={page <= 5} onClick={() => { props.withPrev(); setPage(page - 6) }}>&#60;</button>
         {arrPages.map((p: number, index) => {
           if (p == 1) {
             return (
@@ -78,7 +79,7 @@ const Pokemons: React.FC<any> = React.memo((props) => {
                 <span key={p}><span>...</span><span className={props.currentPage == p ? style.nav_activ_span : style.nav__span} onClick={() => { props.withGetPokemonsNavigation(props.maxCards, index, p, props.maxCards); setPage(arrPages.length - 6) }}>{p}</span></span>)
           }
         })}
-        <button className={style.next_btn} disabled={page > arrPages.length - 7} onClick={() => { props.withNext(); setPage(page + 5) }}>&#62;</button>
+        <button className={style.next_btn} disabled={page > arrPages.length - 7} onClick={() => { props.withNext(); setPage(page + 6) }}>&#62;</button>
         <select className={style.select__btn} defaultValue={props.maxCards} onChange={(event) => { props.withSetMaxCards(+event.target.value); setPage(1) }}>
           <option value='10'>10</option>
           <option value='20'>20</option>
