@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 
 const Pokemon: React.FC<any> = React.memo((props) => {
   const [pokemon, setPokemon] = React.useState<any>(null);
-
+  
   React.useEffect(() => {
     setPokemon(props.data);
   }, [props])
@@ -19,9 +19,11 @@ const Pokemon: React.FC<any> = React.memo((props) => {
 
     <div className={style.image__block}>
       <img src={pokemon.sprites.other.dream_world.front_default
-        ?pokemon.sprites.other.dream_world.front_default
-        :(pokemon.sprites.other['official-artwork']['front_default']
-        ?pokemon.sprites.other['official-artwork']['front_default']:pokemon.sprites.other.home.front_default)} className={style.pok_image} alt="" /></div>
+        ? pokemon.sprites.other.dream_world.front_default
+        : (pokemon.sprites.other['official-artwork']['front_default']
+          ? pokemon.sprites.other['official-artwork']['front_default'] : pokemon.sprites.other.home.front_default
+            ? pokemon.sprites.other.home.front_default
+            : 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/480px-No_image_available.svg.png')} className={style.pok_image} alt="" /></div>
 
     <div className={style.defines__block}>
       <div>Weight: {pokemon.weight}</div>
@@ -33,7 +35,7 @@ const Pokemon: React.FC<any> = React.memo((props) => {
         return <div key={index}>{++index}.{ab.ability.name}</div>
       })}
     </div>
-      <div><NavLink to={`/pokemons/${pokemon.id}`}>Перейти на сторінку</NavLink></div>
+    <div><NavLink to={`/pokemons/${pokemon.id}`}>Перейти на сторінку</NavLink></div>
   </div>
 })
 export default Pokemon;

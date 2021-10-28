@@ -1,0 +1,9 @@
+.search__input {
+  height: 30px;
+  padding-left: 10px;
+}
+.search__block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

@@ -8,16 +8,19 @@ import style from './pokemonDetail.module.css';
 
 const PokemonDetail: React.FC<any> = (props) => {
   const [pokemon, setPokemon] = React.useState<any>();
+  const [error, setError] = React.useState<any>(false)
   React.useEffect(() => {
+    setError(false);
     const Fetch = async () => {
-      const pokemon = await axios.get(`https://pokeapi.co/api/v2/pokemon/${props.match.params.pokId}`);
-      setPokemon(pokemon.data)
+      const pokemon = await axios.get(`https://pokeapi.co/api/v2/pokemon/${props.match.params.pokId}`)
+        .then((pok: any) => setPokemon(pok.data))
+        .catch(error => {console.log(error);setError(error)});
     }
     Fetch();
-  }, [])
-  if (!pokemon) return <div><Preloader /></div>
+  }, [props])
+  if(error)return<div className={style.not__found}>Not Found</div>
+  else if (!pokemon) return <div><Preloader /></div>
   return <div className={style.pokemon__block}>
-
     <div className={style.wrapper}>
       <div className={style.image__block}>
         <img src={pokemon.sprites.other.dream_world.front_default
@@ -53,7 +56,7 @@ const PokemonDetail: React.FC<any> = (props) => {
         {pokemon.sprites.front_shiny_female ? <img src={pokemon.sprites.front_shiny_female} alt="" /> : null}
       </div>
       <div className={style.btn__block}>
-        <NavLink to='/pokemons' className='navlink'><Button variant='contained'color='secondary'>Назад</Button></NavLink>
+        <NavLink to='/pokemons' className='navlink'><Button variant='contained' color='secondary'>Назад</Button></NavLink>
       </div>
     </div>
 

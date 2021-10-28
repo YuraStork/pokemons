@@ -1,63 +1,34 @@
 import * as React from 'react';
-import { styled, alpha } from '@mui/material/styles';
-import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
-
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  height: '35px',
-  marginLeft: 0,
-  width: '150px',
-  marginTop: '5px',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(1),
-    width: 'auto',
-  },
-}));
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: '12ch',
-      '&:focus': {
-        width: '20ch',
-      },
-    },
-  },
-}));
+import { Redirect } from 'react-router';
+import style from './search.module.css'
 
 const SearchComponent: React.FC = () => {
   const [value, setValue] = React.useState<string>('');
-  console.log('Value', value)
-  return <Search>
-    <SearchIconWrapper>
-      <SearchIcon />
-    </SearchIconWrapper>
-    <StyledInputBase
-      placeholder="Search…"
-      inputProps={{ 'aria-label': 'search' }}
-      onChange={(event) => { setValue(event.target.value) }}
-      value={value}
-    />
-  </Search>
+  const [redirect, setRedirect] = React.useState<any>(false);
+  React.useEffect(() => {
+    return () => {
+      setRedirect(false)
+      setValue('');
+    }
+  }, [redirect])
+  const keyPressFunction = (event: any) => {
+    console.log('KEY')
+    if (event.key == 'Enter') {
+      setRedirect(true);
+    }
+  }
+  console.log('Value', value, redirect)
+  if (redirect) return (
+    <div><Redirect to={`/pokemons/${value}`} />
+      <div className={style.search__block}>
+        <div>
+          <input type="text" className={style.search__input} onChange={(event) => setValue(event.target.value)} value={value} onKeyPress={keyPressFunction} placeholder='id or name' />
+        </div>
+      </div>
+    </div>)
+  else return <div className={style.search__block}>
+    <div><input type="text" className={style.search__input} onChange={(event) => setValue(event.target.value)} value={value} onKeyPress={keyPressFunction} placeholder='id or name'/></div>
+  </div>
 }
 export default SearchComponent;

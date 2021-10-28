@@ -7,13 +7,11 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { NavLink } from 'react-router-dom';
 import style from './header.module.css'
-import { Drawer } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
 import SearchComponent from './search/search';
+import DrawerComponent from './drawer/drawer';
 
 const Header: React.FC = () => {
   const [open, setOpen] = React.useState<true | false>(false);
-  const [openSearch, setOpenSearch] = React.useState<true | false>(false);
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" >
@@ -30,24 +28,17 @@ const Header: React.FC = () => {
                   Pokemons
                 </Typography>
               </div>
-          
+
               <div className={style.navlinks__wrapper}>
                 <div className={style.navlinks__block}>
                   <NavLink className={style.navlink} activeClassName={style.active__navlink} to='/home'>Home</NavLink>
                   <NavLink className={style.navlink} activeClassName={style.active__navlink} to='/pokemons'>Pokemons</NavLink>
                 </div>
                 <SearchComponent />
-                </div>
+              </div>
             </Toolbar>
 
-            <Drawer open={open} className={style.drawer}>
-              <IconButton onClick={() => setOpen(false)}>
-                <CloseIcon />
-              </IconButton>
-              <NavLink className={style.navlink__mob} activeClassName={style.active__navlink} to='/main'>Home</NavLink>
-              <NavLink className={style.navlink__mob} activeClassName={style.active__navlink} to='/pokemons'>Pokemons</NavLink>
-            </Drawer>
-
+            <DrawerComponent open={open} setOpen={setOpen} />
           </div>
         </div>
       </AppBar>

@@ -1,3 +1,4 @@
+import { Drawer } from '@mui/material';
 import axios from 'axios';
 import React from 'react';
 import Preloader from '../preloader/preloader';
@@ -7,9 +8,10 @@ import style from './pokemons.module.css';
 const Pokemons: React.FC<any> = React.memo((props) => {
   const [pokemonsArray, setPokemons] = React.useState<any>(null);
   const [page, setPage] = React.useState(props.currentPage > 2 ? props.currentPage - 2 : props.currentPage);
+  const [openFilters, setOpenFilters] = React.useState(false);
   const [value, setValue] = React.useState('');
+  const [loader, setLoader] = React.useState(false);
 
-  console.log('Props:',props,'page:',page);
   React.useEffect(() => {
     const Fetch = async () => {
       const arrPagesL: any = [];
@@ -28,10 +30,12 @@ const Pokemons: React.FC<any> = React.memo((props) => {
   }, [props])
 
   if (!pokemonsArray) return <div><Preloader /></div>
+
   const numberOfPages = Math.ceil(props.count / props.maxCards);
   const arrPages = [];
   for (let i = 1; i <= numberOfPages; i++) arrPages.push(i);
   const sortedBy = (attr: 'weight' | 'height', at: 'dec' | 'inc') => {
+    setLoader(true)
     const arr: any = [...pokemonsArray];
     for (let i = 0; i < arr.length; i++) {
       for (let j = 0; j < arr.length; j++) {
@@ -51,11 +55,28 @@ const Pokemons: React.FC<any> = React.memo((props) => {
       }
     }
     setPokemons(arr);
+    setLoader(false)
   }
   const filterPokemons = pokemonsArray.filter((pokemon: any) => {
     return pokemon.name.toLowerCase().includes(value.toLowerCase());
   });
 
+  const filterPokemonsType = (ability: string) => {
+    const arr = pokemonsArray.filter((pokemon: any) => {
+      return pokemon.abilities.filter((ab: any) => {
+        if (ab.name == ability) {
+          return true;
+        }
+        else {
+          return false;
+        }
+      })
+
+    })
+    console.log("Arr", arr)
+  }
+
+  if (loader) return <div><Preloader /></div>
   return <div className={style.pokemons}>
     <div className={style.navigation}>
       <div className={style.paginator}>
@@ -118,8 +139,29 @@ const Pokemons: React.FC<any> = React.memo((props) => {
 
       <div className={style.filter__block}>
         <input type="text" className={style.search__input} onChange={(event) => setValue(event.target.value)} />
-        <button className={style.sorted__btn} onClick={() => sortedBy('weight', 'dec')}>weigth</button>
-        <button className={style.sorted__btn} onClick={() => sortedBy('height', 'inc')}>height</button>
+        <div onClick={() => setOpenFilters(true)}>Filters</div>
+
+        <Drawer open={openFilters} anchor='right'>
+          <div onClick={() => setOpenFilters(false)}>Close</div>
+          <div className={style.filter}> <button className={style.sorted__btn} onClick={() => sortedBy('weight', 'dec')}>weigth</button></div>
+          <div className={style.filter}> <button className={style.sorted__btn} onClick={() => sortedBy('height', 'inc')}>height</button></div>
+          <div className={style.filter}>
+            Abilities
+            <div>
+              <div className={style.filter__name__wrapper}><div><input type="radio" name='abilitie' onChange={() => filterPokemonsType('overgrow')} /></div><div>overgrow</div></div>
+              <div className={style.filter__name__wrapper}><div><input type="radio" name='abilitie' /></div><div>blaze</div></div>
+              <div className={style.filter__name__wrapper}><div><input type="radio" name='abilitie' /></div><div>torrent</div></div>
+              <div className={style.filter__name__wrapper}><div><input type="radio" name='abilitie' /></div><div>shield-dust</div></div>
+              <div className={style.filter__name__wrapper}><div><input type="radio" name='abilitie' /></div><div>compound-eyes</div></div>
+              <div className={style.filter__name__wrapper}><div><input type="radio" name='abilitie' /></div><div>shed-skin</div></div>
+              <div className={style.filter__name__wrapper}><div><input type="radio" name='abilitie' /></div><div>keen-eye</div></div>
+              <div className={style.filter__name__wrapper}><div><input type="radio" name='abilitie' /></div><div>run-away</div></div>
+              <div className={style.filter__name__wrapper}><div><input type="radio" name='abilitie' /></div><div>sweet-veil</div></div>
+              <div className={style.filter__name__wrapper}><div><input type="radio" name='abilitie' /></div><div>as-one</div></div>
+              <div className={style.filter__name__wrapper}><div><input type="radio" name='abilitie' /></div><div>inner-focus</div></div>
+            </div>
+          </div>
+        </Drawer>
       </div>
     </div>
 

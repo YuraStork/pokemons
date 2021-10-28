@@ -1,0 +1,14 @@
+.active__navlink {
+  background-color: rgb(12, 89, 223);
+  color: white;
+  border: 1px solid white;
+}
+.navlink__mob{
+  width: 200px;
+  text-decoration: none;
+  border: 1px solid rgb(0, 0, 0);
+  display: block;
+  color: rgb(0, 0, 0);
+  margin: 5px;
+  padding: 5px 10px;
+}
