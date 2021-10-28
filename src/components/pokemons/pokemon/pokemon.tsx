@@ -1,6 +1,6 @@
 import React from "react";
 import style from './pokemon.module.css';
-import TransitionsModal from "./modal";
+import { NavLink } from "react-router-dom";
 
 const Pokemon: React.FC<any> = React.memo((props) => {
   const [pokemon, setPokemon] = React.useState<any>(null);
@@ -33,7 +33,7 @@ const Pokemon: React.FC<any> = React.memo((props) => {
         return <div key={index}>{++index}.{ab.ability.name}</div>
       })}
     </div>
-      <TransitionsModal {...pokemon}/>
+      <div><NavLink to={`/pokemons/${pokemon.id}`}>Перейти на сторінку</NavLink></div>
   </div>
 })
 export default Pokemon;
