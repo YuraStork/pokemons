@@ -35,7 +35,7 @@ const Pokemon: React.FC<any> = React.memo((props) => {
         return <div key={index}>{++index}.{ab.ability.name}</div>
       })}
     </div>
-    <div><NavLink to={`/pokemons/${pokemon.id}`}>Перейти на сторінку</NavLink></div>
+    <div className={style.navlink__block}><NavLink className={style.navlink} to={`/pokemons/${pokemon.id}`}>Перейти на сторінку</NavLink></div>
   </div>
 })
 export default Pokemon;
