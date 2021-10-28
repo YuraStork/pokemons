@@ -2,12 +2,12 @@ import { Drawer } from '@mui/material';
 import axios from 'axios';
 import React from 'react';
 import Preloader from '../preloader/preloader';
+import PaginatorComponent from './paginator/paginator';
 import Pokemon from './pokemon/pokemon';
 import style from './pokemons.module.css';
 
 const Pokemons: React.FC<any> = React.memo((props) => {
   const [pokemonsArray, setPokemons] = React.useState<any>(null);
-  const [page, setPage] = React.useState(props.currentPage > 2 ? props.currentPage - 2 : props.currentPage);
   const [openFilters, setOpenFilters] = React.useState(false);
   const [value, setValue] = React.useState('');
   const [loader, setLoader] = React.useState(false);
@@ -29,13 +29,9 @@ const Pokemons: React.FC<any> = React.memo((props) => {
     Fetch();
   }, [props])
 
+  if (loader) return <div><Preloader /></div>
   if (!pokemonsArray) return <div><Preloader /></div>
-
-  const numberOfPages = Math.ceil(props.count / props.maxCards);
-  const arrPages = [];
-  for (let i = 1; i <= numberOfPages; i++) arrPages.push(i);
   const sortedBy = (attr: 'weight' | 'height', at: 'dec' | 'inc') => {
-    setLoader(true)
     const arr: any = [...pokemonsArray];
     for (let i = 0; i < arr.length; i++) {
       for (let j = 0; j < arr.length; j++) {
@@ -55,92 +51,17 @@ const Pokemons: React.FC<any> = React.memo((props) => {
       }
     }
     setPokemons(arr);
-    setLoader(false)
   }
   const filterPokemons = pokemonsArray.filter((pokemon: any) => {
     return pokemon.name.toLowerCase().includes(value.toLowerCase());
   });
 
-  const filterPokemonsType = (ability: string) => {
-    const arr = pokemonsArray.filter((pokemon: any) => {
-      return pokemon.abilities.filter((ab: any) => {
-        if (ab.name == ability) {
-          return true;
-        }
-        else {
-          return false;
-        }
-      })
-
-    })
-    console.log("Arr", arr)
-  }
-
-  if (loader) return <div><Preloader /></div>
   return <div className={style.pokemons}>
     <div className={style.navigation}>
-      <div className={style.paginator}>
-        <button className={style.btn_prev} disabled={page <= 5} onClick={() => { props.withPrev(); setPage(page - 6) }}>&#60;</button>
-        {arrPages.map((p: number, index) => {
-          if (p == 1) {
-            return (
-              <span key={p} className={props.currentPage == p ? style.nav_activ_span : style.nav__span} onClick={() => { props.withGetPokemonsNavigation(props.maxCards, index, p, props.maxCards); setPage(1) }}>{p}</span>)
-          }
-          else if (p > page && p <= page + 6) {
-            return (
-              <span key={p} className={props.currentPage == p ? style.nav_activ_span : style.nav__span} onClick={() => props.withGetPokemonsNavigation(props.maxCards, index, p, props.maxCards)}>{p}</span>)
-          }
-          else if (p == arrPages.length) {
-            if (page == arrPages.length - 6) {
-              return (
-                <span key={p}><span className={props.currentPage == p ? style.nav_activ_span : style.nav__span} onClick={() => { props.withGetPokemonsNavigation(props.maxCards, index, p, props.maxCards); setPage(arrPages.length - 6) }}>{p}</span></span>)
-            }
-            else
-              return (
-                <span key={p}><span>...</span><span className={props.currentPage == p ? style.nav_activ_span : style.nav__span} onClick={() => { props.withGetPokemonsNavigation(props.maxCards, index, p, props.maxCards); setPage(arrPages.length - 6) }}>{p}</span></span>)
-          }
-        })}
-        <button className={style.next_btn} disabled={page > arrPages.length - 7} onClick={() => { props.withNext(); setPage(page + 6) }}>&#62;</button>
-        <select className={style.select__btn} defaultValue={props.maxCards} onChange={(event) => { props.withSetMaxCards(+event.target.value); setPage(1) }}>
-          <option value='10'>10</option>
-          <option value='20'>20</option>
-          <option value='50'>50</option>
-        </select>
-      </div>
-
-      <div className={style.paginator__adaptive}>
-        <button className={style.btn_prev} disabled={page <= 2} onClick={() => { props.withPrev(); setPage(page - 2) }}>&#60;</button>
-        {arrPages.map((p: number, index) => {
-          if (p == 1) {
-            return (
-              <span key={p} className={props.currentPage == p ? style.nav_activ_span : style.nav__span} onClick={() => { props.withGetPokemonsNavigation(props.maxCards, index, p, props.maxCards); setPage(1) }}>{p}</span>)
-          }
-          else if (p > page && p <= page + 2) {
-            return (
-              <span key={p} className={props.currentPage == p ? style.nav_activ_span : style.nav__span} onClick={() => props.withGetPokemonsNavigation(props.maxCards, index, p, props.maxCards)}>{p}</span>)
-          }
-          else if (p == arrPages.length) {
-            if (page == arrPages.length - 2) {
-              return (
-                <span key={p}><span className={props.currentPage == p ? style.nav_activ_span : style.nav__span} onClick={() => { props.withGetPokemonsNavigation(props.maxCards, index, p, props.maxCards); setPage(arrPages.length - 3) }}>{p}</span></span>)
-            }
-            else
-              return (
-                <span key={p}><span>...</span><span className={props.currentPage == p ? style.nav_activ_span : style.nav__span} onClick={() => { props.withGetPokemonsNavigation(props.maxCards, index, p, props.maxCards); setPage(arrPages.length - 3) }}>{p}</span></span>)
-          }
-        })}
-        <button className={style.next_btn} disabled={page > arrPages.length - 4} onClick={() => { props.withNext(); setPage(page + 2) }}>&#62;</button>
-        <select className={style.select__btn} defaultValue={props.maxCards} onChange={(event) => { props.withSetMaxCards(+event.target.value); setPage(1) }}>
-          <option value='10'>10</option>
-          <option value='20'>20</option>
-          <option value='50'>50</option>
-        </select>
-      </div>
-
+      <PaginatorComponent {...props} setloader={setLoader}/>
       <div className={style.filter__block}>
         <input type="text" className={style.search__input} onChange={(event) => setValue(event.target.value)} />
         <div onClick={() => setOpenFilters(true)}>Filters</div>
-
         <Drawer open={openFilters} anchor='right'>
           <div onClick={() => setOpenFilters(false)}>Close</div>
           <div className={style.filter}> <button className={style.sorted__btn} onClick={() => sortedBy('weight', 'dec')}>weigth</button></div>
@@ -148,7 +69,7 @@ const Pokemons: React.FC<any> = React.memo((props) => {
           <div className={style.filter}>
             Abilities
             <div>
-              <div className={style.filter__name__wrapper}><div><input type="radio" name='abilitie' onChange={() => filterPokemonsType('overgrow')} /></div><div>overgrow</div></div>
+              <div className={style.filter__name__wrapper}><div><input type="radio" name='abilitie' /></div><div>overgrow</div></div>
               <div className={style.filter__name__wrapper}><div><input type="radio" name='abilitie' /></div><div>blaze</div></div>
               <div className={style.filter__name__wrapper}><div><input type="radio" name='abilitie' /></div><div>torrent</div></div>
               <div className={style.filter__name__wrapper}><div><input type="radio" name='abilitie' /></div><div>shield-dust</div></div>

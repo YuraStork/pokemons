@@ -9,7 +9,6 @@ export const pokemonsPageAPI = {
     return await main.get(`pokemon?limit=${limit}&offset=${offset}`);
   }
 }
-
 export const mainPageAPI = {
   getPokemons: async (limit) => {
     return await main.get(`pokemon?limit=${limit}&offset=0`);
