@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Preloader from '../../preloader/preloader';
 import style from '../pokemons.module.css';
 
@@ -28,7 +28,7 @@ const PaginatorComponent: React.FC<any> = (props) => {
     <div>
       <div className={style.paginator}>
         <button className={style.btn_prev} disabled={portionNumber == 1} onClick={() => { props.withPrev(); setPortionNumber(portionNumber - 1) }}>&#60;</button>
-        <span className={props.currentPage == 1 ? style.nav_activ_span : style.nav__span} onClick={() => { props.withGetPokemonsNavigation(props.maxCards, 0, 1, props.maxCards);setPortionNumber(1) }}>1</span>
+        <span className={props.currentPage == 1 ? style.nav_activ_span : style.nav__span} onClick={() => { props.withGetPokemonsNavigation(props.maxCards, 0, 1, props.maxCards); setPortionNumber(1); props.setPage(1) }}>1</span>
         {portionNumber > 1 ? <span>...</span> : null}
         {
           pages.filter((p: any) => p >= leftPortionNumber && p <= rightPortionNumber)
@@ -40,13 +40,13 @@ const PaginatorComponent: React.FC<any> = (props) => {
                 return null
               }
               else {
-                return <span key={p} className={props.currentPage == p ? style.nav_activ_span : style.nav__span} onClick={() => { props.withGetPokemonsNavigation(props.maxCards, p - 1, p, props.maxCards); }}>{p}</span>
+                return <span key={p} className={props.currentPage == p ? style.nav_activ_span : style.nav__span} onClick={() => { props.withGetPokemonsNavigation(props.maxCards, p - 1, p, props.maxCards); props.setPage(p) }}>{p}</span>
               }
             }
             )
         }
         {portionNumber <= portionCounter - 1 ? <span>...</span> : null}
-        <span className={props.currentPage == pages.length ? style.nav_activ_span : style.nav__span} onClick={() => { props.withGetPokemonsNavigation(props.maxCards, pages.length - 1, pages.length, props.maxCards);setPortionNumber(portionCounter) }}>{pages.length}</span>
+        <span className={props.currentPage == pages.length ? style.nav_activ_span : style.nav__span} onClick={() => { props.withGetPokemonsNavigation(props.maxCards, pages.length - 1, pages.length, props.maxCards); setPortionNumber(portionCounter); props.setPage(pages.length) }}>{pages.length}</span>
         <button className={style.next_btn} disabled={portionNumber == portionCounter} onClick={() => { props.withNext(); setPortionNumber(portionNumber + 1) }}>&#62;</button>
 
         <select className={style.select__btn} defaultValue={props.maxCards} onChange={(event) => { props.withSetMaxCards(+event.target.value); }}>

@@ -10,6 +10,7 @@ import style from './pokemons.module.css';
 const Pokemons: React.FC<any> = React.memo((props) => {
   const [defaultArray, setDefaultArray] = React.useState<any>([]);
   const [pokemonsArray, setPokemons] = React.useState<any>(null);
+  const [page, setPage] = React.useState(1);
 
   const [openFilters, setOpenFilters] = React.useState(false);
   const [value, setValue] = React.useState('');
@@ -79,6 +80,7 @@ const Pokemons: React.FC<any> = React.memo((props) => {
         const promiseArr = await Promise.all(arrPagesL);
         setPokemons(promiseArr);
         setDefaultArray(promiseArr);
+        setLoader(false)
       }
       else {
         setPokemons([]);
@@ -98,7 +100,9 @@ const Pokemons: React.FC<any> = React.memo((props) => {
       }
     })
   }, [Checked])
-
+  React.useEffect(() => {
+    setLoader(true);
+  }, [page])
   if (!pokemonsArray) return <div><Preloader /></div>
   const sortedBy = (attr: 'weight' | 'height', at: 'dec' | 'inc') => {
     setLoader(true);
@@ -124,7 +128,7 @@ const Pokemons: React.FC<any> = React.memo((props) => {
       setPokemons(arr);
       setLoader(false);
     }, 500);
- 
+
   }
   const sortedByAbilities = (ability: string) => {
     setLoader(true);
@@ -151,7 +155,7 @@ const Pokemons: React.FC<any> = React.memo((props) => {
   });
   return <div className={style.pokemons}>
     <div className={style.navigation}>
-      <PaginatorComponent {...props} setloader={setLoader} />
+      <PaginatorComponent {...props} setloader={setLoader} setPage={setPage} />
       <div className={style.filter__block}>
         <input type="text" className={style.search__input} onChange={(event) => setValue(event.target.value)} />
         <div onClick={() => setOpenFilters(true)}>Filters</div>
