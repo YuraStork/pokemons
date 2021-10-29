@@ -3,13 +3,14 @@
 }
 .pokemon__block {
   display: grid;
-  height: 100%;
+ 
   padding-top: 20px;
   grid-template-columns: 1fr minmax(auto, 1200px) 1fr;
 }
 .wrapper {
   grid-column: 2/3;
-  padding: 10px;
+  padding: 30px;
+  border-radius: 10px;
   display: grid;
   background-color:rgba(255, 255, 255, 0.095);
   grid-template-columns: 1fr 1fr 1fr;
@@ -23,7 +24,8 @@
 .image__block {
   width: 100%;
   grid-column: 1/2;
-  background-color: rgb(115, 0, 255);
+  background: rgb(154,31,143);
+background: linear-gradient(308deg, rgba(154,31,143,1) 36%, rgba(23,131,235,1) 100%);
   text-align: center;
   box-shadow: 2px 2px 5px 2px rgb(58, 2, 68);
   height: 300px;

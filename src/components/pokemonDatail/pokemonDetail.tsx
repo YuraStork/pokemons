@@ -28,9 +28,11 @@ const PokemonDetail: React.FC<any> = (props) => {
     <div className={style.wrapper}>
       <div className={style.image__block}>
         <img src={pokemon.sprites.other.dream_world.front_default
-          ? pokemon.sprites.other.dream_world.front_default
-          : (pokemon.sprites.other['official-artwork']['front_default']
-            ? pokemon.sprites.other['official-artwork']['front_default'] : pokemon.sprites.other.home.front_default)} className={style.image} alt="" />
+        ? pokemon.sprites.other.dream_world.front_default
+        : (pokemon.sprites.other['official-artwork']['front_default']
+          ? pokemon.sprites.other['official-artwork']['front_default'] : pokemon.sprites.other.home.front_default
+            ? pokemon.sprites.other.home.front_default
+            : 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/480px-No_image_available.svg.png')} className={style.image} alt="" />
       </div>
 
       <div className={style.defines__block}>
