@@ -3,13 +3,11 @@ import Preloader from '../../preloader/preloader';
 import style from '../pokemons.module.css';
 
 const PaginatorComponent: React.FC<any> = (props) => {
-  const [page, setPage] = React.useState(props.currentPage);
   const pagesCount = Math.ceil(props.count / props.maxCards);
   const pages: any = [];
 
   for (let i = 1; i <= pagesCount; i++) {
     pages.push(i);
-
   }
   const portionCounter = Math.ceil(pagesCount / (props.portionNumber));
   const [portionNumber, setPortionNumber] = React.useState(1);
