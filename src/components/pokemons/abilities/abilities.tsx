@@ -1,5 +1,7 @@
 import React from 'react';
 import style from '../pokemons.module.css';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Button } from '@mui/material';
 
 const AbilitiesComponent: React.FC<any> = (props) => {
   const handleToggle = ({ id, name }: any) => {
@@ -28,11 +30,11 @@ const AbilitiesComponent: React.FC<any> = (props) => {
             name='abilitie'
             checked={props.Checked.indexOf(filter.id) == -1 ? false : true}
             onChange={() => {
-            handleToggle(filter);
+              handleToggle(filter);
             }} /></div><div>{filter.name}</div></div>
       })
     }
-    <div onClick={handleCancel}>CANCEL</div>
+    <div onClick={handleCancel}><Button><DeleteIcon />Очистити</Button></div>
   </div>
 }
 export default AbilitiesComponent

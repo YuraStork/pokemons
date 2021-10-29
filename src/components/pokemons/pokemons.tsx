@@ -1,4 +1,4 @@
-import { Drawer } from '@mui/material';
+import { Button, Drawer, IconButton } from '@mui/material';
 import axios from 'axios';
 import React from 'react';
 import Preloader from '../preloader/preloader';
@@ -6,6 +6,8 @@ import AbilitiesComponent from './abilities/abilities';
 import PaginatorComponent from './paginator/paginator';
 import Pokemon from './pokemon/pokemon';
 import style from './pokemons.module.css';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import CloseIcon from '@mui/icons-material/Close';
 
 const Pokemons: React.FC<any> = React.memo((props) => {
   const [defaultArray, setDefaultArray] = React.useState<any>([]);
@@ -16,6 +18,7 @@ const Pokemons: React.FC<any> = React.memo((props) => {
   const [value, setValue] = React.useState('');
   const [loader, setLoader] = React.useState(false);
 
+  const [error, setError] = React.useState<any>(false);
   const [cancel, setCancel] = React.useState(false);
   const [Checked, setChecked] = React.useState<any>([]);
 
@@ -103,6 +106,7 @@ const Pokemons: React.FC<any> = React.memo((props) => {
   React.useEffect(() => {
     setLoader(true);
   }, [page])
+
   if (!pokemonsArray) return <div><Preloader /></div>
   const sortedBy = (attr: 'weight' | 'height', at: 'dec' | 'inc') => {
     setLoader(true);
@@ -157,11 +161,15 @@ const Pokemons: React.FC<any> = React.memo((props) => {
     <div className={style.navigation}>
       <PaginatorComponent {...props} setloader={setLoader} setPage={setPage} />
       <div className={style.filter__block}>
-        <input type="text" className={style.search__input} onChange={(event) => setValue(event.target.value)} />
-        <div onClick={() => setOpenFilters(true)}>Filters</div>
+        <input type="text" className={style.search__input} placeholder='name' onChange={(event) => {
+          setLoader(true); setValue(event.target.value); setTimeout(() => {
+            setLoader(false)
+          }, 200)
+        }} />
+        <Button size='small' variant='contained' color='primary' onClick={() => setOpenFilters(true)}><FilterListIcon /></Button>
 
         <Drawer open={openFilters} onClose={() => setOpenFilters(false)} anchor='right'>
-          <div onClick={() => setOpenFilters(false)}>Close</div>
+          <div onClick={() => setOpenFilters(false)}><Button><CloseIcon /></Button></div>
           <div className={style.filter}> <button className={style.sorted__btn} onClick={() => sortedBy('weight', 'dec')}>weigth</button></div>
           <div className={style.filter}> <button className={style.sorted__btn} onClick={() => sortedBy('height', 'inc')}>height</button></div>
 
@@ -173,9 +181,9 @@ const Pokemons: React.FC<any> = React.memo((props) => {
       </div>
     </div>
 
-    {loader ? <div><Preloader /></div> :
-      <div className={style.card__wrapper}>
-        {filterPokemons.map((pok: any) => { return <Pokemon key={pok.name} data={pok} /> })}
+    {loader ? <div><Preloader /></div>
+      : <div className={style.card__wrapper}>
+        {filterPokemons.length !== 0 ? filterPokemons.map((pok: any) => { return <Pokemon key={pok.name} data={pok} /> }) : <div className='not__found'>Not Found</div>}
       </div>
     }
 

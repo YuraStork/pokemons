@@ -29,3 +29,14 @@ code {
   text-decoration: none;
   color:white;
 }
+.not__found{
+  width: 200px;
+  height: 50px;
+  position: absolute;
+  top: 50%;
+  margin-top: -25px;
+  left: 50%;
+  margin-left: -95px;
+  color:white;
+  font-size: 40px;
+}

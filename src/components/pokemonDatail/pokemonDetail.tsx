@@ -17,6 +17,10 @@ const PokemonDetail: React.FC<any> = (props) => {
         .catch(error => {console.log(error);setError(error)});
     }
     Fetch();
+
+    return ()=>{
+      setPokemon(null)
+    }
   }, [props])
   if(error)return<div className={style.not__found}>Not Found</div>
   else if (!pokemon) return <div><Preloader /></div>
