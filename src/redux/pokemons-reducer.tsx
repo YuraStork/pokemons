@@ -40,7 +40,8 @@ const initialState: StateINT = {
   count: 1118,
   offset: 0,
   maxCards: 10,
-  currentPage: 1
+  currentPage: 1,
+  portionNumber: 10
 }
 const pokemonsReducer = (state: StateINT = initialState, action: ActionINT) => {
   switch (action.type) {

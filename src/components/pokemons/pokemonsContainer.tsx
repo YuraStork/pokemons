@@ -23,6 +23,7 @@ const mapStateToProps = (state: any) => {
     offset: state.pokemonsPage.offset,
     maxCards: state.pokemonsPage.maxCards,
     currentPage: state.pokemonsPage.currentPage,
+    portionNumber:state.pokemonsPage.portionNumber
   }
 }
 export default connect(mapStateToProps, { withGetPokemons, withGetPokemonsNavigation, withNext, withPrev, withSetMaxCards })(PokemonsContainer);

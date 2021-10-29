@@ -112,7 +112,11 @@
 .paginator__adaptive {
   display: none;
 }
-@media screen and (max-width: 900px) {
+.paginator__medium {
+  display: none;
+  color:white
+}
+@media screen and (max-width: 1000px) {
   .navigation {
     flex-direction: column;
   }
@@ -126,9 +130,26 @@
     justify-content: space-evenly;
   }
 }
+@media screen and (max-width: 840px) {
+  .paginator{
+    display: none;
+  }
+  .paginator__medium{
+    display: block;
+  }
+  .filter__block {
+    margin: 0 auto;
+    margin-top: 10px;
+  }
+}
 @media screen and (max-width: 600px) {
+  .paginator__medium{
+    display: none;
+  }
+  
   .paginator__adaptive {
     margin: 0 auto;
+    text-align: center;
     margin-bottom: 20px;
     display: block;
     color: white;
@@ -150,3 +171,35 @@
     margin-top: 10px;
   }
 }
+/* const [portion, setPortion] = React.useState();
+console.log(page);
+const numberOfPages = Math.ceil(props.count / props.maxCards);
+const arrPages = [];
+for (let i = 1; i <= numberOfPages; i++) arrPages.push(i); */
+ /* {arrPages.map((p: number, index) => {
+        if (p == 1) {
+          return (
+            <span>
+              <span key={p} className={props.currentPage == p ? style.nav_activ_span : style.nav__span} onClick={() => { props.withGetPokemonsNavigation(props.maxCards, index, p, props.maxCards); setPage(1) }}>{p}</span>
+              {page > 6 ? <span>...</span> : null}</span>)
+        }
+        else if (p > page - 1 && p <= page + 6) {
+          return (
+            <span key={p} className={props.currentPage == p ? style.nav_activ_span : style.nav__span} onClick={() => { props.withGetPokemonsNavigation(props.maxCards, index, p, props.maxCards); }}>{p}</span>)
+        }
+        else if (p == arrPages.length - 3 && p < arrPages.length) {
+          if (page > arrPages.length - 3) {
+            return (
+              <span key={p} className={props.currentPage == p ? style.nav_activ_span : style.nav__span} onClick={() => { props.withGetPokemonsNavigation(props.maxCards, index, p, props.maxCards); }}>{p}</span>)
+          }
+        }
+        else if (p == arrPages.length) {
+          if (page == arrPages.length - 6) {
+            return (
+              <span key={p}><span className={props.currentPage == p ? style.nav_activ_span : style.nav__span} onClick={() => { props.withGetPokemonsNavigation(props.maxCards, index, p, props.maxCards); setPage(arrPages.length - 3) }}>{p}</span></span>)
+          }
+          else
+            return (
+              <span key={p}><span>...</span><span className={props.currentPage == p ? style.nav_activ_span : style.nav__span} onClick={() => { props.withGetPokemonsNavigation(props.maxCards, index, p, props.maxCards); setPage(arrPages.length - 3) }}>{p}</span></span>)
+        }
+      })} */

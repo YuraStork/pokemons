@@ -13,6 +13,7 @@ export interface StateINT {
   offset: number,
   maxCards: number,
   currentPage: number
+  portionNumber:number
 }
 export interface ActionINT {
   type: CONST,
