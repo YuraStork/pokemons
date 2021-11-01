@@ -10,6 +10,23 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import CloseIcon from '@mui/icons-material/Close';
 
 const Pokemons: React.FC<any> = React.memo((props) => {
+  const Fetch = async () => {
+    const arrPagesL: any = [];
+    if (props.pokemons) {
+      props.pokemons.map((pok: any) => {
+        arrPagesL.push(axios.get(pok.url).then((pok: any) => pok.data))
+      })
+      const promiseArr = await Promise.all(arrPagesL);
+      setPokemons(promiseArr);
+      setDefaultArray(promiseArr);
+      setLoader(false)
+    }
+    else {
+      setPokemons([]);
+    }
+    setChecked([]);
+  }
+
   const [defaultArray, setDefaultArray] = React.useState<any>([]);
   const [pokemonsArray, setPokemons] = React.useState<any>(null);
   const [page, setPage] = React.useState(1);
@@ -71,43 +88,59 @@ const Pokemons: React.FC<any> = React.memo((props) => {
       id: 12,
       name: 'inner-focus'
     },
-  ]
+  ];
   React.useEffect(() => {
-    console.log('/////////////////1/////////////////////////');
-    const Fetch = async () => {
-      const arrPagesL: any = [];
-      if (props.pokemons) {
-        props.pokemons.map((pok: any) => {
-          arrPagesL.push(axios.get(pok.url).then((pok: any) => pok.data))
-        })
-        const promiseArr = await Promise.all(arrPagesL);
-        setPokemons(promiseArr);
-        setDefaultArray(promiseArr);
-        setLoader(false)
-      }
-      else {
-        setPokemons([]);
-      }
-      setChecked([]);
-    }
     Fetch();
     setCancel(false);
   }, [props, cancel])
+
   React.useEffect(() => {
-    setPokemons(defaultArray);
-    Checked.map((id: any) => {
-      for (let f of filters) {
-        if (Number(id) == Number(f.id)) {
-          sortedByAbilities(f.name);
+    if (Checked.length > 0) {
+      setLoader(true);
+      const arrayPokemons: any = [];
+      Checked.map((id: any) => {
+        for (let f of filters) {
+          if (Number(id) == Number(f.id)) {
+            defaultArray.forEach((pok: any) => {
+              pok.abilities.forEach((ab: any, index: number) => {
+                if (ab.ability.name == f.name) {
+                  if (arrayPokemons.length > 0) {
+                    let differ = false
+                    for (let i = 0; i < arrayPokemons.length; i++) {
+                      if (arrayPokemons[i].id == pok.id) {
+                        differ = true;
+                      }
+                    }
+                    if (!differ) {
+                      arrayPokemons.push(pok)
+                    }
+                  }
+                  else {
+                    arrayPokemons.push(pok);
+                  }
+                }
+              })
+            });
+
+            setTimeout(() => {
+              setPokemons(arrayPokemons);
+              setLoader(false);
+            }, 500)
+          }
         }
-      }
-    })
+      });
+    }
+    else {
+      setPokemons(defaultArray)
+    }
   }, [Checked])
+
   React.useEffect(() => {
     setLoader(true);
   }, [page])
 
   if (!pokemonsArray) return <div><Preloader /></div>
+  
   const sortedBy = (attr: 'weight' | 'height', at: 'dec' | 'inc') => {
     setLoader(true);
     setTimeout(() => {
@@ -134,29 +167,10 @@ const Pokemons: React.FC<any> = React.memo((props) => {
     }, 500);
 
   }
-  const sortedByAbilities = (ability: string) => {
-    setLoader(true);
-    setTimeout(() => {
-      let arr: any = [];
-      defaultArray.filter((pok: any) => {
-        return pok.abilities.forEach((ab: any, index: number) => {
-          if (ab.ability.name == ability) {
-            arr.push(pok);
-            return true;
-          }
-          else {
-            return false
-          }
-        })
-      })
-      setPokemons(arr);
-      setLoader(false);
-    }, 500)
-
-  }
   const filterPokemons = pokemonsArray.filter((pokemon: any) => {
     return pokemon.name.toLowerCase().includes(value.toLowerCase());
   });
+
   return <div className={style.pokemons}>
     <div className={style.navigation}>
       <PaginatorComponent {...props} setloader={setLoader} setPage={setPage} />
@@ -174,7 +188,7 @@ const Pokemons: React.FC<any> = React.memo((props) => {
           <div className={style.filter}> <button className={style.sorted__btn} onClick={() => sortedBy('height', 'inc')}>height</button></div>
 
           <div className={style.filter}>
-            <AbilitiesComponent sorted={sortedByAbilities} cancel={setCancel} Checked={Checked} setChecked={setChecked} filters={filters} />
+            <AbilitiesComponent cancel={setCancel} Checked={Checked} setChecked={setChecked} filters={filters} />
           </div>
 
         </Drawer>
