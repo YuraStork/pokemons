@@ -27,8 +27,10 @@ const PaginatorComponent: React.FC<any> = (props) => {
 
   React.useEffect(() => {
     setPortionNumber(Math.ceil(props.currentPage / props.portionNumber));
+    setPortionNumber__medium(Math.ceil(props.currentPage / (props.portionNumber-5)));
+    setPortionNumber__adaptive(Math.ceil(props.currentPage / (props.portionNumber-8)))
   },[])
-  
+
   return (
     <div>
       <div className={style.paginator}>
