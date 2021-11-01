@@ -12,30 +12,92 @@ import CloseIcon from '@mui/icons-material/Close';
 const Pokemons: React.FC<any> = React.memo((props) => {
   const Fetch = async () => {
     const arrPagesL: any = [];
-    if (props.pokemons) {
-      props.pokemons.map((pok: any) => {
-        arrPagesL.push(axios.get(pok.url).then((pok: any) => pok.data))
-      })
-      const promiseArr = await Promise.all(arrPagesL);
-      setPokemons(promiseArr);
-      setDefaultArray(promiseArr);
-      setLoader(false)
+    if (Checked.length == 0) {
+      if (props.pokemons) {
+        props.pokemons.map((pok: any) => {
+          arrPagesL.push(axios.get(pok.url).then((pok: any) => pok.data))
+        })
+        const promiseArr = await Promise.all(arrPagesL);
+        setPokemons(promiseArr);
+        setDefaultArray(promiseArr);
+        console.log('get');
+        setTimeout(() => {
+          console.log('time');
+          setLoader(false);
+        }, 1000)
+      }
+      else {
+        setPokemons([]);
+      }
     }
     else {
-      setPokemons([]);
+      if (props.pokemons) {
+        props.pokemons.map((pok: any) => {
+          arrPagesL.push(axios.get(pok.url).then((pok: any) => pok.data))
+        })
+        const promiseArr = await Promise.all(arrPagesL);
+        console.log('get');
+        setDefaultArray(promiseArr);
+        Sort(promiseArr);
+        setTimeout(() => {
+          console.log('time');
+          setLoader(false);
+        }, 1000);
+      }
+      else {
+        setPokemons([]);
+      }
     }
-    setChecked([]);
+  }
+  const Sort = (defaultA: any = defaultArray) => {
+    if (Checked.length > 0) {
+      setLoader(true);
+      const arrayPokemons: any = [];
+      Checked.map((id: any) => {
+        for (let f of filters) {
+          if (Number(id) == Number(f.id)) {
+            defaultA.forEach((pok: any) => {
+              pok.abilities.forEach((ab: any, index: number) => {
+                if (ab.ability.name == f.name) {
+                  if (arrayPokemons.length > 0) {
+                    let differ = false
+                    for (let i = 0; i < arrayPokemons.length; i++) {
+                      if (arrayPokemons[i].id == pok.id) {
+                        differ = true;
+                      }
+                    }
+                    if (!differ) {
+                      arrayPokemons.push(pok)
+                    }
+                  }
+                  else {
+                    arrayPokemons.push(pok);
+                  }
+                }
+              })
+            });
+
+            setTimeout(() => {
+              setPokemons(arrayPokemons);
+              setLoader(false);
+            }, 500)
+          }
+        }
+      });
+    }
+    else {
+      setPokemons(defaultArray)
+    }
   }
 
   const [defaultArray, setDefaultArray] = React.useState<any>([]);
   const [pokemonsArray, setPokemons] = React.useState<any>(null);
-  const [page, setPage] = React.useState(1);
+
 
   const [openFilters, setOpenFilters] = React.useState(false);
   const [value, setValue] = React.useState('');
   const [loader, setLoader] = React.useState(false);
 
-  const [error, setError] = React.useState<any>(false);
   const [cancel, setCancel] = React.useState(false);
   const [Checked, setChecked] = React.useState<any>([]);
 
@@ -89,58 +151,22 @@ const Pokemons: React.FC<any> = React.memo((props) => {
       name: 'inner-focus'
     },
   ];
-  React.useEffect(() => {
-    Fetch();
-    setCancel(false);
-  }, [props, cancel])
-
-  React.useEffect(() => {
-    if (Checked.length > 0) {
-      setLoader(true);
-      const arrayPokemons: any = [];
-      Checked.map((id: any) => {
-        for (let f of filters) {
-          if (Number(id) == Number(f.id)) {
-            defaultArray.forEach((pok: any) => {
-              pok.abilities.forEach((ab: any, index: number) => {
-                if (ab.ability.name == f.name) {
-                  if (arrayPokemons.length > 0) {
-                    let differ = false
-                    for (let i = 0; i < arrayPokemons.length; i++) {
-                      if (arrayPokemons[i].id == pok.id) {
-                        differ = true;
-                      }
-                    }
-                    if (!differ) {
-                      arrayPokemons.push(pok)
-                    }
-                  }
-                  else {
-                    arrayPokemons.push(pok);
-                  }
-                }
-              })
-            });
-
-            setTimeout(() => {
-              setPokemons(arrayPokemons);
-              setLoader(false);
-            }, 500)
-          }
-        }
-      });
-    }
-    else {
-      setPokemons(defaultArray)
-    }
-  }, [Checked])
 
   React.useEffect(() => {
     setLoader(true);
-  }, [page])
+    Fetch();
+  }, [props, cancel])
+
+  React.useEffect(() => {
+    setLoader(true);
+    Sort();
+    setTimeout(() => {
+      setLoader(false);
+    }, 1000);
+  }, [Checked])
 
   if (!pokemonsArray) return <div><Preloader /></div>
-  
+
   const sortedBy = (attr: 'weight' | 'height', at: 'dec' | 'inc') => {
     setLoader(true);
     setTimeout(() => {
@@ -173,7 +199,7 @@ const Pokemons: React.FC<any> = React.memo((props) => {
 
   return <div className={style.pokemons}>
     <div className={style.navigation}>
-      <PaginatorComponent {...props} setloader={setLoader} setPage={setPage} />
+      <PaginatorComponent {...props} setloader={setLoader}  />
       <div className={style.filter__block}>
         <input type="text" className={style.search__input} placeholder='name' onChange={(event) => {
           setLoader(true); setValue(event.target.value); setTimeout(() => {
