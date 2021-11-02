@@ -5,10 +5,10 @@ import Preloader from "../preloader/preloader";
 import Content from "./contant";
 
 const ContantContainer: React.FC<any> = (props) => {
+  const Fetch = async () => {
+    await props.withGetPokemons(props.maxCards);
+  }
   React.useEffect(() => {
-    const Fetch = async () => {
-      await props.withGetPokemons(props.maxCards);
-    }
     Fetch();
   }, [])
 

@@ -6,6 +6,7 @@ import style from './search.module.css'
 const SearchComponent: React.FC = () => {
   const [value, setValue] = React.useState<string>('');
   const [redirect, setRedirect] = React.useState<any>(false);
+
   React.useEffect(() => {
     return () => {
       setRedirect(false)
@@ -18,7 +19,7 @@ const SearchComponent: React.FC = () => {
       setRedirect(true);
     }
   }
-  console.log('Value', value, redirect)
+
   if (redirect) return (
     <div><Redirect to={`/pokemons/${value}`} />
       <div className={style.search__block}>

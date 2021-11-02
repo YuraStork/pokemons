@@ -197,19 +197,30 @@ const Pokemons: React.FC<any> = React.memo((props) => {
     return pokemon.name.toLowerCase().includes(value.toLowerCase());
   });
 
+  const HandleChangeInput = (event: any) => {
+    setLoader(true); setValue(event.target.value); setTimeout(() => {
+      setLoader(false)
+    }, 200)
+  }
+  const HandleOpen = ()=>{
+    setOpenFilters(true)
+  }
+  const HandleClose = ()=>{
+    setOpenFilters(false)
+  }
+  const HandleOpenFilters = ()=>{
+    setOpenFilters(false)
+  }
+  
   return <div className={style.pokemons}>
     <div className={style.navigation}>
-      <PaginatorComponent {...props} setloader={setLoader}  />
+      <PaginatorComponent {...props} setloader={setLoader} />
       <div className={style.filter__block}>
-        <input type="text" className={style.search__input} placeholder='name' onChange={(event) => {
-          setLoader(true); setValue(event.target.value); setTimeout(() => {
-            setLoader(false)
-          }, 200)
-        }} />
-        <Button size='small' variant='contained' color='primary' onClick={() => setOpenFilters(true)}><FilterListIcon /></Button>
+        <input type="text" className={style.search__input} placeholder='name' onChange={(event) => HandleChangeInput(event)} />
+        <Button size='small' variant='contained' color='primary' onClick={HandleOpen}><FilterListIcon /></Button>
 
-        <Drawer open={openFilters} onClose={() => setOpenFilters(false)} anchor='right'>
-          <div onClick={() => setOpenFilters(false)}><Button><CloseIcon /></Button></div>
+        <Drawer open={openFilters} onClose={HandleClose} anchor='right'>
+          <div onClick={HandleOpenFilters}><Button><CloseIcon /></Button></div>
           <div className={style.filter}> <button className={style.sorted__btn} onClick={() => sortedBy('weight', 'dec')}>weigth</button></div>
           <div className={style.filter}> <button className={style.sorted__btn} onClick={() => sortedBy('height', 'inc')}>height</button></div>
 

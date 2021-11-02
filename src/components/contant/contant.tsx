@@ -8,20 +8,22 @@ import style from './contant.module.css'
 
 const Content: React.FC = (props: any) => {
   const [pokemons, setPokemons] = useState<any>(null);
-  useEffect(() => {
-    const Fetch = async () => {
-      const arrPagesL: any = [];
-      if (props.pokemons) {
-        props.pokemons.map((pok: any) => {
-          arrPagesL.push(axios.get(pok.url).then((pok: any) => pok.data))
-        })
-        const promiseArr = await Promise.all(arrPagesL);
-        setPokemons(promiseArr)
-      }
-      else {
-        setPokemons([])
-      }
+
+  const Fetch = async () => {
+    const arrPagesL: any = [];
+    if (props.pokemons) {
+      props.pokemons.map((pok: any) => {
+        arrPagesL.push(axios.get(pok.url).then((pok: any) => pok.data))
+      })
+      const promiseArr = await Promise.all(arrPagesL);
+      setPokemons(promiseArr)
     }
+    else {
+      setPokemons([])
+    }
+  }
+
+  useEffect(() => {
     Fetch();
   }, [props])
 

@@ -12,6 +12,9 @@ import DrawerComponent from './drawer/drawer';
 
 const Header: React.FC = () => {
   const [open, setOpen] = React.useState<true | false>(false);
+  const HandleOpen = ()=>{
+    setOpen(true) 
+  }
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" >
@@ -19,7 +22,7 @@ const Header: React.FC = () => {
           <div className={style.container}>
             <Toolbar variant="dense" disableGutters className={style.header}>
               <div className={style.burger__menu}>
-                <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }} onClick={() => { setOpen(true) }}>
+                <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }} onClick={HandleOpen}>
                   <MenuIcon />
                 </IconButton></div>
               <div className={style.logo__block}>

@@ -5,10 +5,10 @@ import Preloader from "../preloader/preloader";
 import Pokemons from "./pokemons";
 
 const PokemonsContainer = (props: any) => {
+  const Fetch = async () => {
+    await props.withGetPokemons(props.maxCards, props.offset);
+  }
   React.useEffect(() => {
-    const Fetch = async () => {
-      await props.withGetPokemons(props.maxCards, props.offset);
-    }
     Fetch();
   }, [props.maxCards]);
 

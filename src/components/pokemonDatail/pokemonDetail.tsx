@@ -7,32 +7,35 @@ import Preloader from "../preloader/preloader";
 import style from './pokemonDetail.module.css';
 
 const PokemonDetail: React.FC<any> = (props) => {
-  const [pokemon, setPokemon] = React.useState<any>();
-  const [error, setError] = React.useState<any>(false)
+  const [pokemon, setPokemon] = React.useState<any>(null);
+  const [error, setError] = React.useState<any>(false);
+
+  const Fetch = async () => {
+    const pokemon = await axios.get(`https://pokeapi.co/api/v2/pokemon/${props.match.params.pokId}`)
+      .then((pok: any) => setPokemon(pok.data))
+      .catch(error => { console.log(error); setError(error) });
+  }
+
   React.useEffect(() => {
     setError(false);
-    const Fetch = async () => {
-      const pokemon = await axios.get(`https://pokeapi.co/api/v2/pokemon/${props.match.params.pokId}`)
-        .then((pok: any) => setPokemon(pok.data))
-        .catch(error => {console.log(error);setError(error)});
-    }
     Fetch();
-
-    return ()=>{
+    return () => {
       setPokemon(null)
     }
-  }, [props])
-  if(error)return<div className={style.not__found}>Not Found</div>
+  }, [props]);
+
+  if (error) return <div className={style.not__found}>Not Found</div>
   else if (!pokemon) return <div><Preloader /></div>
+
   return <div className={style.pokemon__block}>
     <div className={style.wrapper}>
       <div className={style.image__block}>
         <img src={pokemon.sprites.other.dream_world.front_default
-        ? pokemon.sprites.other.dream_world.front_default
-        : (pokemon.sprites.other['official-artwork']['front_default']
-          ? pokemon.sprites.other['official-artwork']['front_default'] : pokemon.sprites.other.home.front_default
-            ? pokemon.sprites.other.home.front_default
-            : 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/480px-No_image_available.svg.png')} className={style.image} alt="" />
+          ? pokemon.sprites.other.dream_world.front_default
+          : (pokemon.sprites.other['official-artwork']['front_default']
+            ? pokemon.sprites.other['official-artwork']['front_default'] : pokemon.sprites.other.home.front_default
+              ? pokemon.sprites.other.home.front_default
+              : 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/480px-No_image_available.svg.png')} className={style.image} alt="" />
       </div>
 
       <div className={style.defines__block}>
