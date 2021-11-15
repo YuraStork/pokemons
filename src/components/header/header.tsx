@@ -9,6 +9,7 @@ import { NavLink } from 'react-router-dom';
 import style from './header.module.css'
 import SearchComponent from './search/search';
 import DrawerComponent from './drawer/drawer';
+import Task from '../task6/task';
 
 const Header: React.FC = () => {
   const [open, setOpen] = React.useState<true | false>(false);
@@ -36,6 +37,7 @@ const Header: React.FC = () => {
                 <div className={style.navlinks__block}>
                   <NavLink className={style.navlink} activeClassName={style.active__navlink} to='/home'>Home</NavLink>
                   <NavLink className={style.navlink} activeClassName={style.active__navlink} to='/pokemons'>Pokemons</NavLink>
+                
                 </div>
                 <SearchComponent />
               </div>
@@ -44,6 +46,9 @@ const Header: React.FC = () => {
             <DrawerComponent open={open} setOpen={setOpen} />
           </div>
         </div>
+
+        <Task/>
+        
       </AppBar>
     </Box>
   )
